@@ -25,12 +25,15 @@ Detail view:
 
 import json
 import sys
+import os
 import time
 import webbrowser
 import curses
 import textwrap
 from datetime import datetime, timezone
 from pathlib import Path
+
+os.environ.setdefault('ESCDELAY', '25')
 
 
 CRITERIA_LINES = [

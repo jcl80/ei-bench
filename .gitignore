@@ -1,0 +1,19 @@
+# annotations (generated per-annotator, not tracked)
+bench/data/annotations*.jsonl
+bench/data/disagreements*.csv
+
+# raw/intermediate data
+bench/data/ei_bench_*.jsonl
+bench/new/
+
+# model results (generated per-run)
+bench/results/
+
+# python
+__pycache__/
+*.pyc
+.env
+
+# editors
+.vscode/
+*.swp

@@ -19,7 +19,9 @@ An article is existentially important if it describes events that could threaten
 - Terrorist groups displaying new capabilities
 - Events that could threaten humanity as a whole
 
-Opinion pieces, reviews of past events, and minor developments in ongoing conflicts (unless involving escalation) are NOT existentially important. Many articles describe events that are important or noteworthy but not existentially so.
+This includes precursors to existential risk — events that are not yet catastrophic but could lead there (military buildups, diplomatic breakdowns between nuclear powers, novel pathogen variants, etc.).
+
+Opinion pieces, reviews of past events, and minor developments in ongoing conflicts (unless involving escalation or 1000+ deaths) are NOT existentially important. Many articles describe events that are important or noteworthy but not existentially so.
 
 These criteria come from the production [CheckExistentialImportance](https://github.com/NunoSempere/eye-of-sauron) function.
 
@@ -49,12 +51,16 @@ Models receive the same information the annotator received (title, summary, cach
 
 ```
 ei-bench/
+├── QUICKSTART.md                # annotator quickstart (phases 1-3)
 ├── annotate/                    # annotation interface
-│   └── annotate.py              # curses TUI for human annotation
+│   ├── annotate.py              # curses TUI for human annotation
+│   └── GUIDE.md                 # full annotator guide
 │
 ├── bench/                       # benchmarking harness
 │   ├── data/
-│   │   └── articles.jsonl       # 2,472 articles with cached text
+│   │   ├── calibration.jsonl    # 20 articles for calibration round
+│   │   ├── overlap.jsonl        # 100 articles for inter-annotator agreement
+│   │   └── articles_solo.jsonl  # 2,422 articles for solo annotation
 │   ├── agree.py                 # inter-annotator agreement (Cohen's kappa)
 │   ├── prompts/
 │   │   ├── prompt_a.txt         # with criteria
@@ -75,7 +81,7 @@ The annotator receives the existential importance criteria before starting. For 
 
 Defective articles (junk scrapes, paywalled teasers, foreign language, duplicates) are flagged and filtered out before scoring. Articles where the annotator read the full text vs decided from summary only are tracked separately. This lets us measure whether model performance differs on "easy" articles (decidable from summary) vs "hard" articles (required full reading).
 
-Two annotators independently label an overlap set (~200 articles). Agreement is measured with Cohen's kappa (`bench/agree.py`). Disagreements are adjudicated through discussion.
+Two annotators independently label an overlap set (~100 articles). Agreement is measured with Cohen's kappa (`bench/agree.py`). Disagreements are adjudicated through discussion.
 
 ## Models
 
@@ -104,7 +110,6 @@ All open models served via vLLM on RTX Pro 6000 Blackwell (96GB).
 
 Split by:
 - Annotator read full article vs summary-only decision
-- Articles with summary vs title-only
 
 ## Setup
 
@@ -115,17 +120,13 @@ echo "OPENAI_API_KEY=sk-..." > .env
 
 ## Running annotation
 
-```bash
-cd annotate
-python annotate.py --data ../bench/data/articles.jsonl --output ../bench/data/annotations_alice.jsonl --annotator alice
-python annotate.py --data ../bench/data/articles.jsonl --output ../bench/data/annotations_bob.jsonl --annotator bob
-```
+See [QUICKSTART.md](QUICKSTART.md) for the three-phase annotation process (calibration, overlap, solo).
 
 ## Inter-annotator agreement
 
 ```bash
 cd bench
-python agree.py data/annotations_alice.jsonl data/annotations_bob.jsonl --articles data/articles.jsonl --export data/disagreements.csv
+python3 agree.py data/overlap_annotator1.jsonl data/overlap_annotator2.jsonl --articles data/overlap.jsonl --export data/disagreements.csv
 ```
 
 ## Running benchmarks

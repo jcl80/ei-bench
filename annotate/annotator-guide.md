@@ -98,6 +98,7 @@ After calibration, both annotators independently label an overlap set (~200 arti
 
 ## Tips
 
+- **Each set is different.** Each annotation set has a different distribution of important vs not-important articles. Don't let the previous set calibrate your expectations for the next one. Start fresh, apply the criteria to each article independently.
 - **Speed is fine.** Many articles are obvious from the title. "Airport Chaos Could Continue Into Summer" → `n`, move on. Don't overthink the easy ones.
 - **When in doubt, lean no.** The criteria are specific. If you're not sure it meets the threshold, it probably doesn't.
 - **Don't anchor on the summary.** The AI summary always argues for importance (the production AI flags 99.997% of articles as important). Read the summary for facts, not for its conclusion.

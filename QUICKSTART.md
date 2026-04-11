@@ -26,6 +26,7 @@ Send your output file to Jorge when finished.
 
 ## Phase 3: Main annotation (solo, ~3-5 hours)
 ```bash
+cd annotate
 python annotate.py --data ../bench/data/articles_solo.jsonl --output annotations_YOURNAME.jsonl --annotator YOURNAME
 ```
 
